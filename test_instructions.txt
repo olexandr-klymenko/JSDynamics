@@ -1,0 +1,38 @@
+Python Candidate Test Instructions
+This test is meant to help you as a candidate to demonstrate your skills as a Python developer.
+Instead of asking traditional algorithmic questions we are going to focus on a test that will be the
+closest to what you are expected to do on a daily basis at this position. If you can pass this test
+then you can feel confident that you can do the job we are asking you to do and you can also
+understand better our work.
+
+We are going to build a simple RESTful python api application. The application will need to be
+built from scratch using the required following libraries (you may use other libs on top of these if
+needed).
+
+* FastAPI: https://fastapi.tiangolo.com
+* Sqlalchemy: https://www.sqlalchemy.org/
+* Pytest: https://docs.pytest.org/en/stable/
+
+Our sample application will be around vehicles since that’s our business. In the U.S., vehicles
+have a universal id called the vehicle identification number (VIN) which is 17 characters long.
+Besides the VIN we have standard year, make, model and trim to also better understand the car
+along with many other possible attributes like color, engine, seats and more.
+Vehicles are usually sold at dealers (at least for this app we will keep it simple) which have a
+location and possibly other info like email, phone and website.
+
+Let’s build a sample API application with the following requirements:
+
+* Ability to create, update and delete vehicles with their relevant information
+* Ability to create, update and delete dealers with their relevant information
+* Vehicles should be associated with a dealer
+* There should be a way to get all vehicles at a dealer
+
+Things to consider to pass this test:
+* Working App: There should be clear instructions on how to run the app and all routes
+should work as expected
+* Code Quality: Make sure you code is properly formatted and adheres to Python
+standard coding practices
+* Tests: A test suite should be available and all tests should be passing
+
+How to submit your work: After you are finished, please zip up your entire application and
+submit to your recruiter.
