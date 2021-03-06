@@ -1,9 +1,22 @@
 version: '3'
 services:
-  cars_api:
-    build: .
+  cars-api:
+    build:
+      context: '../'
+      dockerfile: './Dockerfile'
     ports:
-    - "8000:8000"
-    command: python -m uvicorn cars_api.main:app --reload --host 0.0.0.0 --port 8000
+    - "8080:8000"
+    command: python -m uvicorn cars_api.main:app --reload --host 0.0.0.0
     environment:
       - SQLALCHEMY_DATABASE_URL
+
+  tests:
+    build:
+      context: '../'
+      dockerfile: './tests/Dockerfile'
+    depends_on:
+      - cars-api
+    command: pytest /srv/tests -vvv
+    environment:
+      API_BASE_URL: "http://cars-api:8080"
+    working_dir: /srv/tests
