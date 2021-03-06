@@ -15,10 +15,10 @@ logs:
 	docker-compose logs -f
 
 build_test:
-	docker-compose -f tests/docker-compose.test.yml build
+	docker-compose -f $(TEST_COMPOSE) build
 
 test:
-	docker-compose -f $(TEST_COMPOSE) --env-file tests/.env up --abort-on-container-exit && \
+	docker-compose -f $(TEST_COMPOSE) up --abort-on-container-exit && \
 	docker-compose -f $(TEST_COMPOSE) down || \
 	{ docker-compose -f $(TEST_COMPOSE) down; exit 1; }
 
@@ -26,4 +26,7 @@ clean:
 	docker system prune -f
 
 format:
-	$(RUN_IN_CONTAINER) black .
+	$(RUN_IN_CONTAINER) python -m black .
+
+lint:
+	$(RUN_IN_CONTAINER) python -m flake8 --max-line-length 99 cars_api
