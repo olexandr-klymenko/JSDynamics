@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from . import models, schemas
+from cars_api import models, schemas
 
 
 def get_dealer(db: Session, dealer_id: int):
@@ -19,7 +19,7 @@ def get_dealers(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Dealer).offset(skip).limit(limit).all()
 
 
-def create_dealer(db: Session, dealer: schemas.Dealer):
+def create_dealer(db: Session, dealer: schemas.DealerCreate):
     db_dealer = models.Dealer(
         name=dealer.name,
         location=dealer.location,

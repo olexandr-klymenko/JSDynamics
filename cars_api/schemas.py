@@ -7,8 +7,7 @@ from pydantic.fields import Field
 VIN_LENGTH = 17
 
 
-class Vehicle(BaseModel):
-    id: str
+class VehicleBase(BaseModel):
     vin: str = Field(
         ...,
         min_length=VIN_LENGTH,
@@ -20,19 +19,33 @@ class Vehicle(BaseModel):
     year: date
     trim: str
 
+
+class VehicleCreate(VehicleBase):
+    pass
+
+
+class Vehicle(VehicleBase):
+    id: str
     dealer_id: int
 
     class Config:
         orm_mode = True
 
 
-class Dealer(BaseModel):
-    id: str
+class DealerBase(BaseModel):
     name: str
     location: str
     email: str
     phone: str
     website: str
+
+
+class DealerCreate(DealerBase):
+    pass
+
+
+class Dealer(DealerBase):
+    id: str
 
     vehicles: List[Vehicle] = []
 
