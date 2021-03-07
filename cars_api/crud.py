@@ -77,3 +77,15 @@ def update_vehicle(db: Session, db_vehicle: models.Vehicle, data: Dict):
 
 def get_vehicles(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Vehicle).offset(skip).limit(limit).all()
+
+
+def get_vehicles_at_dealer(
+    db: Session, dealer_id: int, skip: int = 0, limit: int = 100
+):
+    return (
+        db.query(models.Vehicle)
+        .filter(models.Vehicle.dealer_id == dealer_id)
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
