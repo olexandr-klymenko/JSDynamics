@@ -30,7 +30,7 @@ class TestApiBase:
 
     @staticmethod
     def _request(
-            method: str, url: str, params: Any = None, data: Any = None
+        method: str, url: str, params: Any = None, data: Any = None
     ) -> requests.Response:
         session = requests.Session()
         return session.request(method, url, params, data)

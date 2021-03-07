@@ -33,6 +33,20 @@ def create_dealer(db: Session, dealer: schemas.DealerCreate):
     return db_dealer
 
 
+def update_dealer(db: Session, db_dealer: models.Dealer, data: dict):
+    for key, value in data.items():
+        setattr(db_dealer, key, value)
+    db.add(db_dealer)
+    db.commit()
+    db.refresh(db_dealer)
+    return db_dealer
+
+
+def delete_dealer(db: Session, db_dealer: models.Dealer):
+    db.delete(db_dealer)
+    db.commit()
+
+
 #
 # def get_items(db: Session, skip: int = 0, limit: int = 100):
 #     return db.query(models.Item).offset(skip).limit(limit).all()
