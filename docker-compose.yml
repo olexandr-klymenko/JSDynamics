@@ -7,3 +7,5 @@ services:
     ports:
     - "8000:8000"
     command: python -m uvicorn cars_api.main:app --reload --host 0.0.0.0
+    volumes:
+    - ./db:/srv/db

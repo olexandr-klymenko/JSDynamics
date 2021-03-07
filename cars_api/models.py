@@ -14,7 +14,9 @@ class Dealer(Base):
     phone = Column(String, unique=True, index=True)
     website = Column(String, unique=True)
 
-    vehicles = relationship("Vehicle", back_populates="dealer")
+    vehicles = relationship(
+        "Vehicle", back_populates="dealer", cascade="all, delete, delete-orphan"
+    )
 
 
 class Vehicle(Base):

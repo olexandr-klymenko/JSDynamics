@@ -1,5 +1,3 @@
-APP_NAME = cars_api
-RUN_IN_CONTAINER=docker-compose run --rm -u `id -u`:`id -u` $(APP_NAME)
 TEST_COMPOSE=tests/docker-compose.test.yml
 
 build:
@@ -10,6 +8,8 @@ up:
 
 down:
 	docker-compose down
+
+restart: down build up
 
 logs:
 	docker-compose logs -f
@@ -24,9 +24,3 @@ test:
 
 clean:
 	docker system prune -f
-
-format:
-	$(RUN_IN_CONTAINER) python -m black .
-
-lint:
-	$(RUN_IN_CONTAINER) python -m flake8 --max-line-length 99 cars_api

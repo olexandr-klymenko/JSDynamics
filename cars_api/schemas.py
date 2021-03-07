@@ -18,15 +18,28 @@ class VehicleBase(BaseModel):
     model: str
     year: date
     trim: str
-    dealer_id: int
 
 
 class VehicleCreate(VehicleBase):
     pass
 
 
+class VehicleUpdate(VehicleBase):
+    vin: Optional[str] = Field(
+        None,
+        min_length=VIN_LENGTH,
+        max_length=VIN_LENGTH,
+        title="Vehicle Identification Number",
+    )
+    make: Optional[str]
+    model: Optional[str]
+    year: Optional[date]
+    trim: Optional[str]
+
+
 class Vehicle(VehicleBase):
     id: str
+    dealer_id: int
 
     class Config:
         orm_mode = True
