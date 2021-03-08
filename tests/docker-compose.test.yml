@@ -1,22 +1,28 @@
-version: '3'
+version: '2.1'
 services:
   test-api:
     build:
       context: '../'
       dockerfile: './Dockerfile'
     ports:
-    - "8080:8000"
+    - "8001:8000"
     command: >
       sh -c "python -m scripts.init_test_data && python -m uvicorn cars_api.main:app --reload --host 0.0.0.0 --port 8000"
     environment:
       SQLALCHEMY_DATABASE_URL: "sqlite:///./sql.db"
+    healthcheck:
+      test: python scripts/healthcheck.py
+      interval: 1s
+      timeout: 5s
+      retries: 5
 
   tests:
     build:
       context: '../'
       dockerfile: './tests/Dockerfile'
     depends_on:
-      - test-api
+      test-api:
+        condition: service_healthy
     command: pytest /srv/tests -vvvv
     environment:
       API_BASE_URL: "http://test-api:8000"

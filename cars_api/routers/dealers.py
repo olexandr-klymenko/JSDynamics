@@ -1,6 +1,6 @@
-from typing import List
+from typing import List, Optional
 
-from fastapi import Depends, HTTPException, APIRouter, status
+from fastapi import Depends, HTTPException, APIRouter, status, Query
 from sqlalchemy.orm import Session
 
 from cars_api import crud, schemas
@@ -54,8 +54,13 @@ def delete_dealer(dealer_id: int, db: Session = Depends(get_db)):
 
 
 @router.get("/", response_model=List[schemas.Dealer])
-def read_dealers(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    dealers = crud.get_dealers(db, skip=skip, limit=limit)
+def read_dealers(
+    skip: int = 0,
+    email: Optional[str] = Query(default=None),
+    limit: int = 100,
+    db: Session = Depends(get_db),
+):
+    dealers = crud.get_dealers(db, email=email, skip=skip, limit=limit)
     return dealers
 
 

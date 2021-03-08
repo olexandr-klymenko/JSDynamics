@@ -21,6 +21,3 @@ test:
 	docker-compose -f $(TEST_COMPOSE) up --abort-on-container-exit && \
 	docker-compose -f $(TEST_COMPOSE) down || \
 	{ docker-compose -f $(TEST_COMPOSE) down; exit 1; }
-
-clean:
-	docker system prune -f

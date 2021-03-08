@@ -26,8 +26,10 @@ def create_dealer(db: Session, dealer: schemas.DealerCreate):
     return db_dealer
 
 
-def get_dealers(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Dealer).offset(skip).limit(limit).all()
+def get_dealers(db: Session, email: str = None, skip: int = 0, limit: int = 100):
+    if email is None:
+        return db.query(models.Dealer).offset(skip).limit(limit).all()
+    return db.query(models.Dealer).filter(models.Dealer.email == email).all()
 
 
 def get_vehicle(db: Session, vehicle_id: int):
