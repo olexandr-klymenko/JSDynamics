@@ -1,4 +1,3 @@
-from datetime import date
 from typing import List, Optional
 
 from pydantic import BaseModel
@@ -16,7 +15,7 @@ class VehicleBase(BaseModel):
     )
     make: str
     model: str
-    year: date
+    year: int
     trim: str
 
 
@@ -33,7 +32,7 @@ class VehicleUpdate(VehicleBase):
     )
     make: Optional[str]
     model: Optional[str]
-    year: Optional[date]
+    year: Optional[int]
     trim: Optional[str]
 
 

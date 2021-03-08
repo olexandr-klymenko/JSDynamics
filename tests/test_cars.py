@@ -13,7 +13,35 @@ class TestCarsApi(TestApiBase):
                 "email": "info@fast_deal.com",
                 "phone": "832-555-2002",
                 "website": "fast_deal.com",
-                "vehicles": [],
+                "vehicles": [
+                    {
+                        "vin": "JH4KA8160PC000949",
+                        "make": "Acura",
+                        "model": "Legend",
+                        "year": 1993,
+                        "trim": "DX",
+                        "id": "1",
+                        "dealer_id": 1,
+                    },
+                    {
+                        "vin": "2GCHG31K6J4141689",
+                        "make": "Chevrolet",
+                        "model": "G30",
+                        "year": 1988,
+                        "trim": "LX",
+                        "id": "2",
+                        "dealer_id": 1,
+                    },
+                    {
+                        "vin": "ZAMGJ45A480037578",
+                        "make": "Maserati",
+                        "model": "GranTurismo",
+                        "year": 2008,
+                        "trim": "DX",
+                        "id": "3",
+                        "dealer_id": 1,
+                    },
+                ],
                 "id": 1,
             }
         ]
@@ -43,7 +71,7 @@ class TestCarsApi(TestApiBase):
 
     def test_update_dealer(self):
         update_resp = self.patch(
-            f"dealers/2", data=json.dumps({"phone": "323-372-2514"})
+            "dealers/2", data=json.dumps({"phone": "323-372-2514"})
         )
         assert update_resp.status_code == 200
         assert update_resp.json() == {
@@ -58,4 +86,71 @@ class TestCarsApi(TestApiBase):
     def test_get_all_vehicles_at_a_dealer(self):
         resp = self.get("dealers/1/vehicles")
         assert resp.status_code == 200
-        assert resp.json() == []
+        assert resp.json() == [
+            {
+                "vin": "JH4KA8160PC000949",
+                "make": "Acura",
+                "model": "Legend",
+                "year": 1993,
+                "trim": "DX",
+                "id": "1",
+                "dealer_id": 1,
+            },
+            {
+                "vin": "2GCHG31K6J4141689",
+                "make": "Chevrolet",
+                "model": "G30",
+                "year": 1988,
+                "trim": "LX",
+                "id": "2",
+                "dealer_id": 1,
+            },
+            {
+                "vin": "ZAMGJ45A480037578",
+                "make": "Maserati",
+                "model": "GranTurismo",
+                "year": 2008,
+                "trim": "DX",
+                "id": "3",
+                "dealer_id": 1,
+            },
+        ]
+
+    def test_create_vehicle(self):
+        create_resp = self.post(
+            "dealers/2/vehicles",
+            data=json.dumps(
+                {
+                    "vin": "1FVABPAL91HH92692",
+                    "make": "Freightliner",
+                    "model": "Medium Conventional",
+                    "year": 2001,
+                    "trim": "LS",
+                }
+            ),
+        )
+        assert create_resp.status_code == 201
+        assert create_resp.json()["vin"] == "1FVABPAL91HH92692"
+
+    def test_update_vehicle(self):
+        get_resp = self.get("dealers/3/vehicles")
+        assert get_resp.status_code == 200
+        vehicle_id = get_resp.json()[0]["id"]
+
+        update_resp = self.patch(
+            f"vehicles/{vehicle_id}", data=json.dumps({"trim": "GL"})
+        )
+        assert update_resp.status_code == 200
+        assert update_resp.json()["trim"] == "GL"
+
+    def test_delete_vehicle(self):
+        get_resp = self.get("dealers/4/vehicles")
+        assert get_resp.status_code == 200
+        vehicle_id = get_resp.json()[0]["id"]
+
+        delete_resp = self.delete(f"vehicles/{vehicle_id}")
+        assert delete_resp.status_code == 204
+
+        get_resp = self.get("dealers/4/vehicles")
+        assert get_resp.status_code == 200
+        assert get_resp.json() == []

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, Date
+from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from .database import Base
@@ -25,7 +25,7 @@ class Vehicle(Base):
     vin = Column(String, unique=True, index=True)
     make = Column(String)
     model = Column(String)
-    year = Column(Date)
+    year = Column(Integer)
     trim = Column(String)
 
     dealer_id = Column(Integer, ForeignKey("dealers.id"))

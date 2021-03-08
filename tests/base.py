@@ -22,9 +22,6 @@ class TestApiBase:
     def delete(self, url: str) -> requests.Response:
         return self._request("DELETE", f"{self.api_base_url}/{url}/")
 
-    def put(self, url: str, data: str, partial: bool = False) -> requests.Response:
-        return self._request("PUT", f"{self.api_base_url}/{url}/", data=data)
-
     def patch(self, url: str, data: str) -> requests.Response:
         return self._request("PATCH", f"{self.api_base_url}/{url}/", data=data)
 
