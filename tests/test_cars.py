@@ -40,3 +40,22 @@ class TestCarsApi(TestApiBase):
 
         get_resp = self.get("dealers", params={"email": "info@some_email.com"})
         assert get_resp.json() == []
+
+    def test_update_dealer(self):
+        update_resp = self.patch(
+            f"dealers/2", data=json.dumps({"phone": "323-372-2514"})
+        )
+        assert update_resp.status_code == 200
+        assert update_resp.json() == {
+            "location": "Los Angeles CA",
+            "email": "info@best_cars.com",
+            "phone": "323-372-2514",
+            "website": "best_cars.com",
+            "vehicles": [],
+            "id": 2,
+        }
+
+    def test_get_all_vehicles_at_a_dealer(self):
+        resp = self.get("dealers/1/vehicles")
+        assert resp.status_code == 200
+        assert resp.json() == []

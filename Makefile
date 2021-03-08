@@ -15,7 +15,7 @@ logs:
 	docker-compose logs -f
 
 build_test:
-	docker-compose -f $(TEST_COMPOSE) build
+	COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f $(TEST_COMPOSE) build
 
 test:
 	docker-compose -f $(TEST_COMPOSE) up --abort-on-container-exit && \
