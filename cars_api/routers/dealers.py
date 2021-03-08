@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import Depends, HTTPException, APIRouter
+from fastapi import Depends, HTTPException, APIRouter, status
 from sqlalchemy.orm import Session
 
 from cars_api import crud, schemas
@@ -8,14 +8,18 @@ from cars_api.database import get_db
 
 router = APIRouter()
 
-DealerNotFound = HTTPException(status_code=404, detail="Dealer not found")
+DealerNotFound = HTTPException(
+    status_code=status.HTTP_404_NOT_FOUND, detail="Dealer not found"
+)
 
 
-@router.post("/", response_model=schemas.Dealer, status_code=201)
+@router.post("/", response_model=schemas.Dealer, status_code=status.HTTP_201_CREATED)
 def create_dealer(dealer: schemas.DealerCreate, db: Session = Depends(get_db)):
     db_dealer = crud.get_dealer_by_email(db, email=dealer.email)
     if db_dealer:
-        raise HTTPException(status_code=400, detail="Email already registered")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered"
+        )
     return crud.create_dealer(db=db, dealer=dealer)
 
 
@@ -35,18 +39,18 @@ def update_dealer(
     if db_dealer is None:
         raise DealerNotFound
 
-    return crud.update_dealer(
-        db=db, db_dealer=db_dealer, data=dealer.dict(exclude_unset=True)
+    return crud.update_record(
+        db=db, db_record=db_dealer, data=dealer.dict(exclude_unset=True)
     )
 
 
-@router.delete("/{dealer_id}", status_code=204)
+@router.delete("/{dealer_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_dealer(dealer_id: int, db: Session = Depends(get_db)):
     db_dealer = crud.get_dealer(db, dealer_id=dealer_id)
     if db_dealer is None:
         raise DealerNotFound
 
-    crud.delete_dealer(db=db, db_dealer=db_dealer)
+    crud.delete_record(db=db, db_record=db_dealer)
 
 
 @router.get("/", response_model=List[schemas.Dealer])
@@ -55,7 +59,11 @@ def read_dealers(skip: int = 0, limit: int = 100, db: Session = Depends(get_db))
     return dealers
 
 
-@router.post("/{dealer_id}/vehicles/", response_model=schemas.Vehicle)
+@router.post(
+    "/{dealer_id}/vehicles/",
+    response_model=schemas.Vehicle,
+    status_code=status.HTTP_201_CREATED,
+)
 def create_vehicle_for_dealer(
     dealer_id: int, vehicle: schemas.VehicleCreate, db: Session = Depends(get_db)
 ):
