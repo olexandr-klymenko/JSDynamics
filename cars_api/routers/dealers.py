@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from fastapi import Depends, HTTPException, APIRouter, status, Query
+from fastapi import Depends, HTTPException, APIRouter, status, Query, Response
 from sqlalchemy.orm import Session
 
 from cars_api import crud, schemas
@@ -31,7 +31,7 @@ def read_dealer(dealer_id: int, db: Session = Depends(get_db)):
     return db_dealer
 
 
-@router.patch("/{dealer_id}", response_model=schemas.Dealer)
+@router.patch("/{dealer_id}/", response_model=schemas.Dealer)
 def update_dealer(
     dealer_id: int, dealer: schemas.DealerUpdate, db: Session = Depends(get_db)
 ):
@@ -44,13 +44,14 @@ def update_dealer(
     )
 
 
-@router.delete("/{dealer_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{dealer_id}/", status_code=status.HTTP_204_NO_CONTENT)
 def delete_dealer(dealer_id: int, db: Session = Depends(get_db)):
     db_dealer = crud.get_dealer(db, dealer_id=dealer_id)
     if db_dealer is None:
         raise DealerNotFound
 
     crud.delete_record(db=db, db_record=db_dealer)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
 @router.get("/", response_model=List[schemas.Dealer])

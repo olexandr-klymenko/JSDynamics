@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import Depends, HTTPException, APIRouter, status
+from fastapi import Depends, HTTPException, APIRouter, status, Response
 from sqlalchemy.orm import Session
 
 from cars_api import crud, schemas
@@ -41,6 +41,7 @@ def delete_vehicle(vehicle_id: int, db: Session = Depends(get_db)):
         raise VehicleNotFound
 
     crud.delete_record(db, db_record=db_vehicle)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
 @router.get("/", response_model=List[schemas.Vehicle])
