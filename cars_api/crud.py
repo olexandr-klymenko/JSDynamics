@@ -13,17 +13,12 @@ def get_dealer_by_email(db: Session, email: str):
     return db.query(models.Dealer).filter(models.Dealer.email == email).first()
 
 
-def get_dealer_by_phone(db: Session, phone: str):
-    return db.query(models.Dealer).filter(models.Dealer.phone == phone).first()
-
-
 def get_dealers(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Dealer).offset(skip).limit(limit).all()
 
 
 def create_dealer(db: Session, dealer: schemas.DealerCreate):
     db_dealer = models.Dealer(
-        name=dealer.name,
         location=dealer.location,
         email=dealer.email,
         phone=dealer.phone,
@@ -79,7 +74,7 @@ def get_vehicles(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Vehicle).offset(skip).limit(limit).all()
 
 
-def get_vehicles_at_dealer(
+def get_vehicles_at_a_dealer(
     db: Session, dealer_id: int, skip: int = 0, limit: int = 100
 ):
     return (

@@ -8,7 +8,6 @@ class Dealer(Base):
     __tablename__ = "dealers"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, unique=True, index=True)
     location = Column(String)
     email = Column(String, unique=True, index=True)
     phone = Column(String, unique=True, index=True)

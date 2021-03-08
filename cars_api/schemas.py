@@ -46,7 +46,6 @@ class Vehicle(VehicleBase):
 
 
 class DealerBase(BaseModel):
-    name: str
     location: str
     email: str
     phone: str
@@ -58,7 +57,6 @@ class DealerCreate(DealerBase):
 
 
 class DealerUpdate(DealerBase):
-    name: Optional[str]
     location: Optional[str]
     email: Optional[str]
     phone: Optional[str]

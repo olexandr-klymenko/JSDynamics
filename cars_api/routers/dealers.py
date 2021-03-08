@@ -63,5 +63,5 @@ def create_vehicle_for_dealer(
 
 
 @router.get("/{dealer_id}/vehicles/", response_model=List[schemas.Vehicle])
-def get_vehicles_at_dealer(dealer_id: int, db: Session = Depends(get_db)):
-    return crud.get_vehicles_at_dealer(db=db, dealer_id=dealer_id)
+def get_vehicles_at_a_dealer(dealer_id: int, db: Session = Depends(get_db)):
+    return crud.get_vehicles_at_a_dealer(db=db, dealer_id=dealer_id)
