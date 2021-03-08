@@ -10,7 +10,7 @@ class Dealer(Base):
     id = Column(Integer, primary_key=True, index=True)
     location = Column(String)
     email = Column(String, unique=True, index=True)
-    phone = Column(String, unique=True, index=True)
+    phone = Column(String, unique=True)
     website = Column(String, unique=True)
 
     vehicles = relationship(
