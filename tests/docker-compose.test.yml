@@ -11,10 +11,11 @@ services:
     environment:
       SQLALCHEMY_DATABASE_URL: "sqlite:///./sql.db"
     healthcheck:
-      test: python scripts/healthcheck.py
+      test: sh -c "python scripts/healthcheck.py"
       interval: 1s
       timeout: 5s
       retries: 5
+    stop_signal: SIGKILL
 
   tests:
     build:
